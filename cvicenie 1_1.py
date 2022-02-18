@@ -1,4 +1,5 @@
 from fei.ppds import *
+import matplotlib.pyplot as plt
 
 
 class Shared():
@@ -24,6 +25,11 @@ def counter(shared, mutex):
         mutex.unlock()
 
 
+def histogram(data):
+    plt.hist(data)
+    plt.show()
+
+
 shared = Shared(1_000_000)
 mutex = Mutex()
 t1 = Thread(counter, shared, mutex)
@@ -31,4 +37,4 @@ t2 = Thread(counter, shared, mutex)
 t1.join()
 t2.join()
 
-print(shared.array)
+histogram(shared.array)
