@@ -16,13 +16,14 @@ class Shared():
         self.array = [0] * size
 
 
-def counter(shared):
+def counter(shared, mutex):
     pass
 
 
 shared = Shared(1_000_000)
-t1 = Thread(counter, shared)
-t2 = Thread(counter, shared)
+mutex = Mutex()
+t1 = Thread(counter, shared, mutex)
+t2 = Thread(counter, shared, mutex)
 t1.join()
 t2.join()
 
