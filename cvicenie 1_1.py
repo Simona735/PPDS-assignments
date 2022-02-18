@@ -7,22 +7,22 @@ class Shared():
     Shared array.
 
     Keyword arguments:
-    index -- current array index
-    size -- array size 
-    array -- array itself
-    """ 
-    def __init__(self, size):
-        self.index = 0
-        self.size = size
-        self.array = [0] * size
+    counter -- current array index
+    end -- array size
+    elms -- array itself
+    """
+    def __init__(self, end):
+        self.counter = 0
+        self.end = end
+        self.elms = [0] * end
 
 
 def counter(shared, mutex):
     """Increment shared array with use of mutex"""
-    while shared.index < shared.size - 1:
+    while shared.counter < shared.end - 1:
         mutex.lock()
-        shared.array[shared.index] += 1
-        shared.index += 1
+        shared.elms[shared.counter] += 1
+        shared.counter += 1
         mutex.unlock()
 
 
@@ -39,4 +39,4 @@ t2 = Thread(counter, shared, mutex)
 t1.join()
 t2.join()
 
-histogram(shared.array)
+histogram(shared.elms)
