@@ -18,6 +18,7 @@ class Shared():
 
 
 def counter(shared, mutex):
+    """Increment shared array with use of mutex"""
     while shared.index < shared.size - 1:
         mutex.lock()
         shared.array[shared.index] += 1
@@ -26,6 +27,7 @@ def counter(shared, mutex):
 
 
 def histogram(data):
+    """Print histogram."""
     plt.hist(data)
     plt.show()
 
