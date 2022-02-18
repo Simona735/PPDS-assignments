@@ -2,9 +2,19 @@
 from fei.ppds import *
 
 
-# definicia triedy 'Shared'
 class Shared():
-    pass
+    """
+    Shared array.
+
+    Keyword arguments:
+    index -- current array index
+    size -- array size 
+    array -- array itself
+    """ 
+    def __init__(self, size):
+        self.index = 0
+        self.size = size
+        self.array = [0] * size
 
 
 # definicia funkcie vlakna
