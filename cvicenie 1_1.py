@@ -22,5 +22,7 @@ def counter(shared):
 
 shared = Shared(1_000_000)
 t1 = Thread(counter, shared)
+t2 = Thread(counter, shared)
 t1.join()
+t2.join()
 
