@@ -17,7 +17,7 @@ class Shared():
 
 
 def counter(shared, mutex):
-    while shared.index < shared.size:
+    while shared.index < shared.size - 1:
         mutex.lock()
         shared.array[shared.index] += 1
         shared.index += 1
