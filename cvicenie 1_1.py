@@ -16,11 +16,11 @@ class Shared():
         self.array = [0] * size
 
 
-def fnc_test(shared):
+def counter(shared):
     pass
 
 
 shared = Shared(1_000_000)
-t1 = Thread(fnc_test, shared)
+t1 = Thread(counter, shared)
 t1.join()
 
