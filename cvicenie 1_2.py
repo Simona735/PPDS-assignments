@@ -19,11 +19,11 @@ class Shared():
 
 def counter(shared, mutex):
     """Increment shared array with use of mutex"""
-    while shared.counter < shared.end - 1:
-        mutex.lock()
+    mutex.lock()
+    while shared.counter < shared.end:
         shared.elms[shared.counter] += 1
         shared.counter += 1
-        mutex.unlock()
+    mutex.unlock()
 
 
 def histogram(data):
