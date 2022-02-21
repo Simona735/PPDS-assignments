@@ -21,7 +21,7 @@ Branch contains 3 files as 3 variations of using the lock.
 I will first list the identical parts of the code and then describe the differences.
 ## Identical parts
 
-Each file contains class definition of object Shared
+Each file contains class definition of object Shared with parameters counter, end and elms
 
 ```python
 class Shared():
@@ -47,7 +47,7 @@ def histogram(data):
     plt.show()
 ```
 
-The main code consists of creating an instacne of the shared object, two threads which perform the given method (different in each file, see below) and printing a histogram of results.
+The main code consists of creating an instance of the shared object, two threads that perform the given method (different in each file, see below), and printing a histogram of results.
 
 ## cvicenie 1_1.py
 
@@ -61,12 +61,33 @@ def counter(shared, mutex):
         shared.elms[shared.counter] += 1
         shared.counter += 1
         mutex.unlock()
+
+    shared.threads_count += 1
+    while shared.threads_count < 2:
+        continue
+
+    mutex.lock()
+    if shared.counter != shared.end:
+        shared.elms[shared.counter] += 1
+        shared.counter += 1
+    mutex.unlock()
 ```
-**Prerequisities:** made only for 2 theads.
 
-:warning: **Warning:** there is a possibility that the last item of list **_will not_** be incremented as it should be.
+I also added parameter for class Shared:
 
-**Parallel programming effect:** In ideal state (we suppose all items will be incremented by one), there is partial paralelism. One thread evaluates the condition of while loop while the other thread increments the list item ale list index. 
+```python
+    def __init__(self, end):
+        self.counter = 0
+        self.threads_count = 0
+        self.end = end
+        self.elms = [0] * end
+```
+
+**Prerequisities:** made only for 2 threads.
+
+**Parallel programming effect:** There is partial parallelism. One thread evaluates the condition of while loop while the other thread increments the list item and list index. 
+
+**Description:** First while loop does not guarantee that all the list items will be incremented. The problem can be fixed by adding additional check. Second while loop ensures that both threads had finished the first loop. After that, threads check the last item in the list and increment it if needed.
 
 ## cvicenie 1_2.py
 
@@ -84,7 +105,7 @@ def counter(shared, mutex):
 
 **Prerequisities:** works for N threads.
 
-**Parallel programming effect:** There is basically no paralelism as only one thread is allowed to handle the code, while the other waits for the first one to finish. After that, all the work is done.
+**Parallel programming effect:** There is no parallelism as only one thread is allowed to handle the code, while the other waits for the first one to finish. After that, all the work is done.
 
 ## cvicenie 1_3.py
 
@@ -105,6 +126,6 @@ def counter(shared, mutex):
 
 **Prerequisities:** works for N threads.
 
-**Parallel programming effect:** There is no paralelism also. The difference is that the threads take turns in executing the handler code.
+**Parallel programming effect:** There is no parallelism also. The difference is that the threads take turns in executing the handler code.
 
-**Remark:** Third solution is inspired by Mgr. Ing. Matúš Jókay, PhD.. The base of the solution is no different from cvicenie 1_2.py so it does not count as third variation. 
+**Remark:** Third solution is inspired by Mgr. Ing. Matúš Jókay, PhD. The base of the solution is no different from cvicenie 1_2.py so it does not count as a third variation. 
