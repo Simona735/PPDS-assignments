@@ -19,8 +19,11 @@ class Shared():
 
 def counter(shared, mutex):
     """Increment shared array with use of mutex"""
-    while shared.counter < shared.end - 1:
+    while True:
         mutex.lock()
+        if shared.counter >= shared.end:
+            mutex.unlock()
+            break;
         shared.elms[shared.counter] += 1
         shared.counter += 1
         mutex.unlock()
