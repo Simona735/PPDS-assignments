@@ -8,6 +8,7 @@ class Shared():
 
     Keyword arguments:
     counter -- current array index
+    threads_count -- number of threads
     end -- array size
     elms -- array itself
     """
