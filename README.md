@@ -128,4 +128,21 @@ def counter(shared, mutex):
 
 **Parallel programming effect:** There is no parallelism also. The difference is that the threads take turns in executing the handler code.
 
-**Remark:** Third solution is inspired by Mgr. Ing. Matúš Jókay, PhD. The base of the solution is no different from cvicenie 1_2.py so it does not count as a third variation. 
+# Results comparison
+
+I created a comparison of the results in terms of the time it takes to execute the handler code. Each version of the code was tested three times. Object Shared was used with the size of 1 000 000 and results are stated in seconds.
+
+| cvicenie 1_1.py  | cvicenie 1_2.py | cvicenie 1_3.py |
+| ------------- | ------------- | ------------- |
+|  1.3035  |  0.1785  |  0.9965  |
+|  1.4012  |  0.1715  |  0.9215  |
+|  1.3154  |  0.1835  |  1.1110  |
+
+Although the first solution (cvicenie 1_1.py) was partially parallel, solution number 2 (cvicenie 1_2.py) proved to be the fastest. 
+Solution 1 includes the additional checks described in the sections above and a while loop whose purpose is to wait for a second thread, which slows down the process compared to the other solutions.  
+Locking and unlocking the mutex are also operations that cost time. Solution 1 and solution 3 (cvicenie 1_3.py) are slowed down by these operations compared to the second solution, which has minimal mutex operations. 
+
+**Conclusion**: The second solution is not parallel, yet it turned out to be the fastest.
+
+
+
