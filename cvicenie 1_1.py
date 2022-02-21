@@ -13,6 +13,7 @@ class Shared():
     """
     def __init__(self, end):
         self.counter = 0
+        self.threads_count = 0
         self.end = end
         self.elms = [0] * end
 
@@ -24,6 +25,16 @@ def counter(shared, mutex):
         shared.elms[shared.counter] += 1
         shared.counter += 1
         mutex.unlock()
+
+    shared.threads_count += 1
+    while shared.threads_count < 2:
+        continue
+
+    mutex.lock()
+    if shared.counter != shared.end:
+        shared.elms[shared.counter] += 1
+        shared.counter += 1
+    mutex.unlock()
 
 
 def histogram(data):
