@@ -64,17 +64,14 @@ def ko(thread_name):
  
 def barrier_example(barrier, thread_name):
     """
-    Doplnte synchronizaciu tak, aby sa vsetky vlakna pockali
-    nielen pred vykonanim funkcie 'ko', ale aj
-    *vzdy* pred zacatim vykonavania funkcie 'rendezvous'.
+    Barrier infinite cycle test.
     """
  
     while True:
-        # ...
+        barrier.wait()
         rendezvous(thread_name)
-        # ...
+        barrier.wait()
         ko(thread_name)
-        # ...
  
  
 THREADS_NUM = 10
