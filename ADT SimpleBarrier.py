@@ -21,6 +21,12 @@ class SimpleBarrier:
     """
         
     def __init__(self, threads_num):
+        """
+        Initialize SimpleBarrier.
+        
+        Args:
+            threads_num(int): number of threads
+        """
         self.threads_num = threads_num
         self.counter = 0
         self.mutex = Mutex()
