@@ -29,5 +29,5 @@ def barrier_example(barrier, thread_id):
  
 sb = SimpleBarrier(5)
  
-# doplnit kod, v ktorom sa vytvara a spusta 5 vlakien
-# ...
+threads = [Thread(barrier_example, sb, i) for i in range(5)]
+[t.join for t in threads]
