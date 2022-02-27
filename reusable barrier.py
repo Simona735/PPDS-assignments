@@ -47,13 +47,19 @@ class SimpleBarrier:
  
  
 def rendezvous(thread_name):
-    sleep(randint(1,10)/10)
+    """
+    Imitate rendezvous using sleep. 
+    """
+    sleep(randint(1, 10)/10)
     print('rendezvous: %s' % thread_name)
  
  
 def ko(thread_name):
+    """
+    Imitate critical area using sleep.
+    """
     print('ko: %s' % thread_name)
-    sleep(randint(1,10)/10)
+    sleep(randint(1, 10)/10)
  
  
 def barrier_example(barrier, thread_name):
