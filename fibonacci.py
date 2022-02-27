@@ -19,6 +19,9 @@ THREADS_NUM = 10
 fibonacci_seq = [0] * (THREADS_NUM + 2)
 fibonacci_seq[1] = 1
 
+ads_list = [Semaphore(0) for i in range(THREADS_NUM)]
+ads_list[0].signal()
+
 threads = list()
 for i in range(THREADS_NUM):
     t = Thread(compute_fibonacci, i)
