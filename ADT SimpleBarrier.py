@@ -56,9 +56,9 @@ def barrier_example(barrier, thread_id):
         thread_id(int): id of thread.
     """
     sleep(randint(1,10)/10)
-    print("vlakno %d pred barierou" % thread_id)
+    print("thread %d before barrier" % thread_id)
     barrier.wait()
-    print("vlakno %d po bariere" % thread_id)
+    print("thread %d after barrier" % thread_id)
  
  
 sb = SimpleBarrier(5)
