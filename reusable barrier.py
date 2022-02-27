@@ -30,6 +30,7 @@ class SimpleBarrier:
         self.counter = 0
         self.mutex = Mutex()
         self.turnstile = Event()
+    
  
     def wait(self):
         """
@@ -44,6 +45,16 @@ class SimpleBarrier:
             self.turnstile.signal()
         self.mutex.unlock()
         self.turnstile.wait()
+    
+
+    def reset(self):
+        """
+        Resets the barrier.
+        """
+        self.mutex.lock()
+        if self.counter == 0:
+            self.turnstile.clear()
+        self.mutex.unlock()
  
  
 def rendezvous(thread_name):
@@ -68,8 +79,10 @@ def barrier_example(barrier1, barrier2, thread_name):
     """
  
     while True:
+        barrier1.reset()
         barrier1.wait()
         rendezvous(thread_name)
+        barrier2.reset()
         barrier2.wait()
         ko(thread_name)
  
