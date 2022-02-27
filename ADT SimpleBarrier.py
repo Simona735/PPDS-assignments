@@ -27,7 +27,18 @@ class SimpleBarrier:
         self.turnstile = Event()
  
     def wait(self):
-        pass
+        """
+        The wait() function shall synchronize participating threads at the barrier
+        until all threads have reached wait() specifying the barrier. After that
+        all threads are released to continue.
+        """
+        self.mutex.lock()
+        self.counter += 1
+        if self.counter == self.threads_num:
+            self.counter = 0
+            self.turnstile.signal()
+        self.mutex.unlock()
+        self.turnstile.wait()
  
  
 def barrier_example(barrier, thread_id):
