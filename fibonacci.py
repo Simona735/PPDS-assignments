@@ -10,6 +10,12 @@ from fei.ppds import Thread, Mutex, Semaphore, Event
 
 
 def compute_fibonacci(i, adt_list):
+    """
+    Computes fibonacci sequence using multiple threads and sync mechanism.
+
+    Args:
+        adt_list(object): list of sync objects. One for each thread.
+    """
     sleep(randint(1, 10)/10)
     fibonacci_seq[i + 2] = fibonacci_seq[i + 1] + fibonacci_seq[i]
 
