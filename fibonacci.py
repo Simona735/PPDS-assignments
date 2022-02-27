@@ -19,7 +19,8 @@ def compute_fibonacci(i, adt_list):
     sleep(randint(1, 10)/10)
     adt_list[i].wait()
     fibonacci_seq[i + 2] = fibonacci_seq[i + 1] + fibonacci_seq[i]
-    adt_list[i + 1].signal()
+    if i + 1 < len(adt_list):
+        adt_list[i + 1].signal()
 
 
 THREADS_NUM = 10
