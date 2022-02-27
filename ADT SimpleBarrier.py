@@ -28,9 +28,9 @@ class SimpleBarrier:
  
     def wait(self):
         """
-        The wait() function shall synchronize participating threads at the barrier
-        until all threads have reached wait() specifying the barrier. After that
-        all threads are released to continue.
+        The wait() function shall synchronize participating threads
+        at the barrier until all threads have reached wait() specifying
+        the barrier. After that all threads are released to continue.
         """
         self.mutex.lock()
         self.counter += 1
