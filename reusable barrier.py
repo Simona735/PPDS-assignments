@@ -62,25 +62,26 @@ def ko(thread_name):
     sleep(randint(1, 10)/10)
  
  
-def barrier_example(barrier, thread_name):
+def barrier_example(barrier1, barrier2, thread_name):
     """
     Barrier infinite cycle test.
     """
  
     while True:
-        barrier.wait()
+        barrier1.wait()
         rendezvous(thread_name)
-        barrier.wait()
+        barrier2.wait()
         ko(thread_name)
  
  
 THREADS_NUM = 10
 
-sb = SimpleBarrier(THREADS_NUM)
+sb1 = SimpleBarrier(THREADS_NUM)
+sb2 = SimpleBarrier(THREADS_NUM)
 
 threads = list()
 for i in range(THREADS_NUM):
-    t = Thread(barrier_example, sb, 'Thread %d' % i)
+    t = Thread(barrier_example, sb1, sb2, 'Thread %d' % i)
     threads.append(t)
  
 for t in threads:
