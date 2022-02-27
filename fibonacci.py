@@ -9,18 +9,6 @@ from random import randint
 from fei.ppds import Thread, Mutex, Semaphore, Event
 
 
-class AdtSemaphore:
-    """
-    Adt Semaphore object.
-
-    Args:
-        
-    """
-        
-    def __init__(self):
-        pass
-
-
 def compute_fibonacci(i):
     sleep(randint(1, 10)/10)
     fibonacci_seq[i + 2] = fibonacci_seq[i + 1] + fibonacci_seq[i]
