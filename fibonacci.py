@@ -28,7 +28,8 @@ THREADS_NUM = 10
 fibonacci_seq = [0] * (THREADS_NUM + 2)
 fibonacci_seq[1] = 1
 
-adt_list = [Semaphore(0) for i in range(THREADS_NUM)]
+# adt_list = [Semaphore(0) for i in range(THREADS_NUM)]
+adt_list = [Event() for i in range(THREADS_NUM)]
 adt_list[0].signal()
 
 threads = list()
