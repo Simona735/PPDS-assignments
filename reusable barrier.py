@@ -56,8 +56,8 @@ def ko(thread_name):
     sleep(randint(1,10)/10)
  
  
-def barrier_example(thread_name):
-    """Kazde vlakno vykonava kod funkcie 'barrier_example'.
+def barrier_example(barrier, thread_name):
+    """
     Doplnte synchronizaciu tak, aby sa vsetky vlakna pockali
     nielen pred vykonanim funkcie 'ko', ale aj
     *vzdy* pred zacatim vykonavania funkcie 'rendezvous'.
@@ -71,14 +71,13 @@ def barrier_example(thread_name):
         # ...
  
  
-"""Vytvorime vlakna, ktore chceme synchronizovat.
-Nezabudnime vytvorit aj zdielane synchronizacne objekty,
-a dat ich ako argumenty kazdemu vlaknu, ktore chceme pomocou nich
-synchronizovat.
-"""
+THREADS_NUM = 10
+
+sb = SimpleBarrier(THREADS_NUM)
+
 threads = list()
-for i in range(5):
-    t = Thread(barrier_example, 'Thread %d' % i)
+for i in range(THREADS_NUM):
+    t = Thread(barrier_example, sb, 'Thread %d' % i)
     threads.append(t)
  
 for t in threads:
