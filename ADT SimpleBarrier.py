@@ -13,8 +13,18 @@ from fei.ppds import print
  
  
 class SimpleBarrier:
-    def __init__(self, N):
-        self.N = N
+    """
+    SimpleBarrier object. Event is used to implement the turnstile.
+
+    Args:
+        threads_num(int): number of threads
+    """
+        
+    def __init__(self, threads_num):
+        self.threads_num = threads_num
+        self.counter = 0
+        self.mutex = Mutex()
+        self.turnstile = Event()
  
     def wait(self):
         pass
