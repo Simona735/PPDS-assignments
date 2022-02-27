@@ -8,7 +8,7 @@ Event signaling is used to implement the turnstile.
 
 from random import randint
 from time import sleep
-from fei.ppds import Thread, Semaphore, Mutex
+from fei.ppds import Thread, Event, Mutex
 from fei.ppds import print
  
  
@@ -21,6 +21,13 @@ class SimpleBarrier:
  
  
 def barrier_example(barrier, thread_id):
+    """
+    Simple barrier test with on-screen printouts.
+    
+    Args:
+        barrier(SimpleBarrier): SimpleBarrier object.
+        thread_id(int): id of thread.
+    """
     sleep(randint(1,10)/10)
     print("vlakno %d pred barierou" % thread_id)
     barrier.wait()
