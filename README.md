@@ -12,7 +12,7 @@ The branch contains 3 main files. Each of them solves a different task. In gener
 
 # Assignment
 
-The whole assignment consists of 3 tasks. Each task has a separate file. For each task, we will first list the task assignment, then its associated file and finally describe the solution. 
+The whole assignment consists of 3 tasks. Each task has a separate file. For each task, we will first list the task assignment, then its associated file, and finally describe the solution. 
 
 ## Task 1 - ADT SimpleBarrier:
 
@@ -20,8 +20,8 @@ The whole assignment consists of 3 tasks. Each task has a separate file. For eac
 
 **Associated file**: [ADT SimpleBarrier.py](ADT%20SimpleBarrier.py)
 
-**Describiton**: 
-At the beginning, we initialize 5 threads that will start executing the barrier_example function. This function tests the functionality of the barrier using on-screen printouts. The barrier object itself has a wait() function implemented that synchronizes the threads on the barrier until all threads have reached the wait() function. Then all threads are released to continue.
+**Description**: 
+In the beginning, we initialize 5 threads that will start executing the barrier_example function. This function tests the functionality of the barrier using on-screen printouts. The barrier object itself has a wait() function implemented that synchronizes the threads on the barrier until all threads have reached the wait() function. Then all threads are released to continue.
 
 **_The solution is designed so that the barrier works exactly once!_**
 
@@ -31,7 +31,7 @@ At the beginning, we initialize 5 threads that will start executing the barrier_
 
 **Associated file**: [reusable barrier.py](reusable%20barrier.py)
 
-**Describiton**: The main part of the program is a cycle that tests the reusable barrier. In the loop there are 2 functions outside the barrier - rendezvous() and ko() imitating the handler code using the sleep() function.
+**Description**: The main part of the program is a cycle that tests the reusable barrier. In the loop, there are 2 functions outside the barrier - rendezvous() and ko() imitating the handler code using the sleep() function.
 
 ``` python
 while True:
@@ -57,7 +57,7 @@ Use semaphores to synchronize first. Then create a second version with events. D
 
 **Associated file**: [fibonacci.py](fibonacci.py)
 
-**Describiton**: The program calculates the fibonacci sequence according to the task. The program is divided into main module and calculation function.
+**Description**: The program calculates the Fibonacci sequence according to the task. The program is divided into the main module and calculation function.
 
 ``` python
 THREADS_NUM = 10
@@ -72,7 +72,7 @@ threads = [Thread(compute_fibonacci, i, adt_list, fibonacci_seq)
            for i in range(THREADS_NUM)]
 ```
 
-The main module initializes the threads, the list of fibonacci sequence elements derived from the number of threads, and also initializes one synchronization object per thread.
+The main module initializes the threads, the list of Fibonacci sequence elements derived from the number of threads, and also initializes one synchronization object per thread.
 The commented line represents the version with the use of semaphores. By uncommenting it and commenting out the line below it, we can modify the implementation without affecting the application logic of the program.
 
 The main mechanism works as follows. Each thread has to wait for the previous thread to finish its activity, so the "i" thread will signal to the "i+1" thread that it can start its activity. In other words, a thread waits for the preceding thread **before** calculating and signals the following thread **after** calculating. See below:
@@ -100,8 +100,10 @@ The first two elements of the sequence are given so that we can derive other ele
 
 **Questions to think about**:
 1) What is the smallest number of synchronization objects (semaphores, mutexes, events) needed to solve this problem?
+   - My solution states that the smallest number of used synchronization objects is N. I am convinced that it is possible to find a smaller number, but I have no proof of this.
 
 2) Which of the synchronization patterns discussed (mutual exclusion, signaling, rendezvous, barrier) can be used to solve this problem? Specifically describe how that-some synchronization pattern is used in your solution.
+   - My solution uses Semaphores and Events. Both of them are used as signaling. The current thread signalizes to thread i+1. Rendezvous can be used in a similar way, but it is unnecessary in my opinion, as it is two-way signaling, and the thread i doesn't have to signal to i-1 thread. The barrier deals with all threads, which is not our goal and I have no justified opinion on mutex.
 
 
 All solutions were inspired by the knowledge from the lecture and the skelets of codes provided by the lecturer Mgr. Ing. Matúš Jókay, PhD..
