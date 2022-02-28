@@ -32,10 +32,12 @@ def main():
 
     # adt_list = [Semaphore(0) for i in range(THREADS_NUM)]
     adt_list = [Event() for i in range(THREADS_NUM)]
-    adt_list[0].signal()
 
     threads = [Thread(compute_fibonacci, i, adt_list, fibonacci_seq)
                for i in range(THREADS_NUM)]
+    
+    adt_list[0].signal()
+    
     [t.join() for t in threads]
 
     print(fibonacci_seq)
