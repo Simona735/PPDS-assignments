@@ -100,7 +100,7 @@ The first two elements of the sequence are given so that we can derive other ele
 
 **Questions to think about**:
 1) What is the smallest number of synchronization objects (semaphores, mutexes, events) needed to solve this problem?
-   - My solution states that the smallest number of used synchronization objects is N. I am convinced that it is possible to find a smaller number, but I have no proof of this.
+   - My solution states that the smallest number of used synchronization objects is N. N represents the number of threads and each thread has one synchronization object. I am convinced that it is possible to find a smaller number, but I have no proof of this.
 
 2) Which of the synchronization patterns discussed (mutual exclusion, signaling, rendezvous, barrier) can be used to solve this problem? Specifically describe how that-some synchronization pattern is used in your solution.
    - My solution uses Semaphores and Events. Both of them are used as signaling. The current thread signalizes to thread i+1. Rendezvous can be used in a similar way, but it is unnecessary in my opinion, as it is two-way signaling, and the thread i doesn't have to signal to i-1 thread. The barrier deals with all threads, which is not our goal and I have no justified opinion on mutex.
