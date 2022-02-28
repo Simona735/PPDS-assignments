@@ -15,7 +15,8 @@ def compute_fibonacci(i, adt_list, fibonacci_seq):
     Computes fibonacci sequence using multiple threads and sync mechanism.
 
     Args:
-        adt_list(object): list of sync objects. One for each thread.
+        adt_list(object[]): list of sync objects. One for each thread.
+        fibonacci_seq(int[]): list of fibonacci sequence. 
     """
     sleep(randint(1, 10)/10)
     adt_list[i].wait()
