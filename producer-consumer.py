@@ -124,16 +124,21 @@ def main():
     consumers_count = 1
     storage_size = 1
 
-    shared = Shared(storage_size)
-    producers = [Thread(producer,
-                        shared,
-                        production_time) for i in range(producers_count)]
-    consumers = [Thread(consumer,
-                        shared,
-                        processing_time) for i in range(consumers_count)]
-
-    sleep(1)
-    [t.join() for t in producers + consumers]
+    for i in range(10):
+        print(i)
+        shared = Shared(storage_size)
+        producers = [Thread(producer,
+                            shared,
+                            production_time) for _ in range(producers_count)]
+        consumers = [Thread(consumer,
+                            shared,
+                            processing_time) for _ in range(consumers_count)]
+    
+        sleep(2)
+        shared.finished = True
+        shared.items.signal(100)
+        shared.free.signal(100)
+        [t.join() for t in producers + consumers]
     
 
 
