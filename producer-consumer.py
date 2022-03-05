@@ -9,6 +9,8 @@ This module computes fibonacci sequence using various synchronization ADT.
 from time import *
 from random import randint
 from fei.ppds import *
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 class Shared:
@@ -73,6 +75,27 @@ def consumer(shared, consume_time):
         shared.mutex.unlock()
         shared.free.signal()
         sleep(consume_time)
+
+
+def surface_plot(x, y, z, x_label, y_label):
+    """
+    Make a 3d surface plot.
+
+    Args:
+        x(int[]): list of values representing observed parameter 1
+        y(int[]): list of values representing observed parameter 2
+        z(int[]): list of values representing number of products
+            produced per second
+        x_label(string): label for x value 
+        y_label(string): label for y value 
+    """
+    fig = plt.figure()
+    ax = plt.axes(projection='3d')
+    ax.plot_surface(x, y, z)
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    plt.zlabel('Počet výrobkov za sekundu')
+    plt.show()
 
 
 def main():
