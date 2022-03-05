@@ -105,6 +105,22 @@ def average(list_values):
     return sum(list_values) / len(list_values)
 
 
+def producer_consumer(produce, process, producers, consumers, size):
+    shared = Shared(size)
+    producers = [Thread(producer,
+                        shared,
+                        produce) for _ in range(producers)]
+    consumers = [Thread(consumer,
+                        shared,
+                        process) for _ in range(consumers)]
+
+    sleep(0.5)
+    shared.finished = True
+    shared.items.signal(100)
+    shared.free.signal(100)
+    [t.join() for t in producers + consumers]
+
+
 def main():
     production_time = 0.2
     processing_time = 0.1
@@ -126,30 +142,17 @@ def main():
             for i in range(10):
                 print(".", end=" ")
                 start = time()
-                shared = Shared(storage_size)
-                producers = [Thread(producer,
-                                    shared,
-                                    production_time) for _ in range(producers_count)]
-                consumers = [Thread(consumer,
-                                    shared,
-                                    processing_time) for _ in range(consumers_count)]
-        
-                sleep(0.5)
-                shared.finished = True
-                shared.items.signal(100)
-                shared.free.signal(100)
-                [t.join() for t in producers + consumers]
-                end = time()
-                elapsed = end - start
-                
-                optimality_values.append(shared.produced / elapsed)
+                producer_consumer(production_time,
+                                  processing_time,
+                                  producers_count,
+                                  consumers_count,
+                                  storage_size)
+                optimality_values.append(shared.produced /(time() - start))
             optimality[m][n] = average(optimality_values)
         print()
-    print()
-    print(optimality)
+    print("\n", optimality)
     surface_plot(param1, param2, optimality, param1_label, param2_label)
 
 
 if __name__ == "__main__":
     main()
-
