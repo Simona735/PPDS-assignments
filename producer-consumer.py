@@ -127,10 +127,10 @@ def main():
     processing_time = 0.1
     producers_count = 5
     consumers_count = 5
-    storage_size = 4
+    storage_size = 5
 
-    param1 = [1, 2, 3]
-    param2 = [1, 2, 3]
+    param1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    param2 = [0.001, 0.002, 0.005, 0.007, 0.01, 0.02, 0.05, 0.07, 0.1, 0.5]
     param1_label = "x"
     param2_label = "y"
     optimality = np.empty([len(param1), len(param2)], dtype=int)
@@ -143,9 +143,9 @@ def main():
             for i in range(10):
                 print(".", end=" ")
                 start = time()
-                produced = producer_consumer(production_time,
+                produced = producer_consumer(param2[n],
                                   processing_time,
-                                  producers_count,
+                                  param1[m],
                                   consumers_count,
                                   storage_size)
                 optimality_values.append(produced /(time() - start))
