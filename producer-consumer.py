@@ -91,7 +91,12 @@ def surface_plot(x, y, z, x_label, y_label):
         x_label(string): label for x value 
         y_label(string): label for y value 
     """
-    fig = go.Figure(data=[go.Surface(z=z, x=x, y=y)])
+    fig = go.Figure(data=[go.Surface(z=z, x=x, y=y,
+                                     contours={
+                                         "x": {"show": True, "size": 1},
+                                         "y": {"show": True, "size": 1},
+                                         "z": {"show": True, "size": 1},
+                                     },)])
     fig.update_layout(width=500, height=500,
                       margin=dict(l=0, r=0, b=0, t=0),
                       scene=dict(
