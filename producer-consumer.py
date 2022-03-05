@@ -91,13 +91,14 @@ def surface_plot(x, y, z, x_label, y_label):
         x_label(string): label for x value 
         y_label(string): label for y value 
     """
-    fig = plt.figure()
-    ax = plt.axes(projection='3d')
-    ax.plot_surface(x, y, z)
-    plt.xlabel(x_label)
-    plt.ylabel(y_label)
-    plt.clabel('Počet výrobkov za sekundu')
-    plt.show()
+    fig = go.Figure(data=[go.Surface(z=z, x=x, y=y)])
+    fig.update_layout(width=500, height=500,
+                      margin=dict(l=0, r=0, b=0, t=0),
+                      scene=dict(
+                          xaxis=dict(title=x_label),
+                          yaxis=dict(title=y_label),
+                          zaxis=dict(title="Počet výrobkov za sekundu")))
+    fig.show()
 
 
 def average(list_values):
