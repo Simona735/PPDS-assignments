@@ -84,14 +84,17 @@ def producer(shared, produce_time):
 
     Args:
         shared(Shared): shared object representing a warehouse
-        produce_time(int): production time in milliseconds 
+        produce_time(int): production time in milliseconds
     """
-    sleep(produce_time / 1000)
-    shared.free.wait()
-    shared.mutex.lock()
-    sleep(randint(1, 10) / 1000)
-    shared.mutex.unlock()
-    shared.items.signal()
+    while True:
+        sleep(produce_time / 1000)
+        shared.free.wait()
+        if shared.finished:
+            break
+        shared.mutex.lock()
+        sleep(randint(1, 10) / 1000)
+        shared.mutex.unlock()
+        shared.items.signal()
 
 
 def consumer(shared, consume_time):
@@ -101,14 +104,17 @@ def consumer(shared, consume_time):
 
     Args:
         shared(Shared): shared object representing a warehouse
-        consume_time(int): time of consuming in milliseconds 
+        consume_time(int): time of consuming in milliseconds
     """
-    shared.items.wait()
-    shared.mutex.lock()
-    sleep(randint(1, 10) / 1000)
-    shared.mutex.unlock()
-    shared.free.signal()
-    sleep(consume_time / 1000)
+    while True:
+        shared.items.wait()
+        if shared.finished:
+            break
+        shared.mutex.lock()
+        sleep(randint(1, 10) / 1000)
+        shared.mutex.unlock()
+        shared.free.signal()
+        sleep(consume_time / 1000)
 
 
 def main():
