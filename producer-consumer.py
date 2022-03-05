@@ -52,3 +52,20 @@ class Lightswitch:
             semaphore.signal()
         self.mutex.unlock()
 
+
+def producer(shared, produce_time, store_time):
+    """
+    The method models the producers process. Producers create items of
+    some kind and add them to a shared data structure (i.e., warehouse).
+
+    Args:
+        shared(Shared): shared object representing a warehouse
+        produce_time(int): production time in milliseconds 
+        store_time(int): storing time in milliseconds 
+    """
+    sleep(produce_time / 1000)
+    shared.free.wait()
+    shared.mutex.lock()
+    sleep(store_time / 1000)
+    shared.mutex.unlock()
+    shared.items.signal()
