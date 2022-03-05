@@ -69,3 +69,22 @@ def producer(shared, produce_time, store_time):
     sleep(store_time / 1000)
     shared.mutex.unlock()
     shared.items.signal()
+
+
+def consumer(shared, consume_time):
+    """
+    The method models the consumer process. Producers create items of
+    some kind and add them to a shared data structure (i.e., warehouse).
+
+    Args:
+        shared(Shared): shared object representing a warehouse
+        consume_time(int): time of consuming in milliseconds 
+    """
+    shared.items.wait()
+    shared.mutex.lock()
+    sleep(randint(1, 10) / 1000)
+    shared.mutex.unlock()
+    shared.free.signal()
+    sleep(consume_time / 1000)
+
+
