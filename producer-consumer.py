@@ -10,7 +10,7 @@ from time import *
 from random import randint
 from fei.ppds import *
 import numpy as np
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 
 
 class Shared:
