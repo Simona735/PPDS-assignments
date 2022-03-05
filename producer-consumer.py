@@ -6,7 +6,7 @@ This module computes fibonacci sequence using various synchronization ADT.
 """
 
 
-from time import sleep
+from time import *
 from random import randint
 from fei.ppds import *
 
@@ -84,6 +84,7 @@ def main():
 
     for i in range(10):
         print(i)
+        start = time()
         shared = Shared(storage_size)
         producers = [Thread(producer,
                             shared,
@@ -91,12 +92,14 @@ def main():
         consumers = [Thread(consumer,
                             shared,
                             processing_time) for _ in range(consumers_count)]
-    
+
         sleep(2)
         shared.finished = True
         shared.items.signal(100)
         shared.free.signal(100)
-        [t.join() for t in producers + consumers]    
+        [t.join() for t in producers + consumers]
+        end = time()
+        elapsed = end - start 
 
 
 if __name__ == "__main__":
