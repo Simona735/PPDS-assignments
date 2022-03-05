@@ -114,6 +114,8 @@ def main():
 
     param1 = [1, 2, 3]
     param2 = [1, 2, 3]
+    param1_label = "x"
+    param2_label = "y"
     optimality = np.empty([len(param1), len(param2)], dtype=int)
 
     for m in range(len(param1)):
@@ -145,7 +147,7 @@ def main():
         print()
     print()
     print(optimality)
-    surface_plot([1, 2, 3], [1, 2, 3], optimality, "x", "y")
+    surface_plot(param1, param2, optimality, param1_label, param2_label)
 
 
 if __name__ == "__main__":
