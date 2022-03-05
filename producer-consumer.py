@@ -53,6 +53,30 @@ class Lightswitch:
         self.mutex.unlock()
 
 
+class Shared:
+    """
+    Shared object. Oject represents a "warehouse" in a consumer-producer
+    problem.
+    """
+        
+    def __init__(self, size):
+        """
+        Initialize Shared object. The "finished" parameter indicates
+        whether the activity is finished. The mutex parameter ensures
+        the integrity of the access. Parameter "items" expresses the total
+        number of slots and the parameter "free" expresses the number of
+        free slots. 
+
+        Args:
+            size(int): size of Shared object. The parameter expresses
+            how many items it can store.
+        """
+        self.finished = False
+        self.mutex = Mutex()
+        self.free = Semaphore(size)
+        self.items = Semaphore(0)
+
+
 def producer(shared, produce_time):
     """
     The method models the producers process. Producers create items of
