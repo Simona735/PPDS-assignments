@@ -111,3 +111,26 @@ def consumer(shared, consume_time):
     sleep(consume_time / 1000)
 
 
+def main():
+    production_time = 1
+    processing_time = 1
+    producers_count = 1
+    consumers_count = 1
+    storage_size = 1
+
+    shared = Shared(storage_size)
+    producers = [Thread(producer,
+                        shared,
+                        production_time) for i in range(producers_count)]
+    consumers = [Thread(consumer,
+                        shared,
+                        processing_time) for i in range(consumers_count)]
+
+    sleep(1)
+    [t.join() for t in producers + consumers]
+    
+
+
+if __name__ == "__main__":
+    main()
+
