@@ -106,10 +106,10 @@ def main():
     producers_count = 1
     consumers_count = 1
     storage_size = 1
+    optimality = []
 
-    
+    optimality.clear()
     for i in range(10):
-        print(i)
         start = time()
         shared = Shared(storage_size)
         producers = [Thread(producer,
@@ -125,7 +125,9 @@ def main():
         shared.free.signal(100)
         [t.join() for t in producers + consumers]
         end = time()
-        elapsed = end - start 
+        elapsed = end - start
+        optimality.append(shared.produced / elapsed)
+    print(optimality)
 
 
 if __name__ == "__main__":
