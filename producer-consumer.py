@@ -96,22 +96,29 @@ def surface_plot(x, y, z, x_label, y_label):
     ax.plot_surface(x, y, z)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
-    plt.zlabel('Počet výrobkov za sekundu')
+    plt.clabel('Počet výrobkov za sekundu')
     plt.show()
 
 
+def average(list_values):
+    return sum(list_values) / len(list_values)
+
+
 def main():
-    production_time = 1
-    processing_time = 1
-    producers_count = 1
-    consumers_count = 1
-    storage_size = 1
-    optimality = []
+    production_time = 0.2
+    processing_time = 0.1
+    producers_count = 5
+    consumers_count = 5
+    storage_size = 4
+    optimality = np.empty([3, 3], dtype=int)
 
     for m in range(len([1, 2, 3])):
+        average_optimality = []
         for n in range(len([1, 2, 3])):
-            optimality.clear()
+            print("\n", m, n,"\t", end=" ")
+            optimality_values = []
             for i in range(10):
+                print(".", end=" ")
                 start = time()
                 shared = Shared(storage_size)
                 producers = [Thread(producer,
@@ -121,15 +128,20 @@ def main():
                                     shared,
                                     processing_time) for _ in range(consumers_count)]
         
-                sleep(2)
+                sleep(0.5)
                 shared.finished = True
                 shared.items.signal(100)
                 shared.free.signal(100)
                 [t.join() for t in producers + consumers]
                 end = time()
                 elapsed = end - start
-                optimality.append(shared.produced / elapsed)
-            print(optimality)
+                
+                optimality_values.append(shared.produced / elapsed)
+            optimality[m][n] = average(optimality_values)
+        print()
+    print()
+    print(optimality)
+    surface_plot([1, 2, 3], [1, 2, 3], optimality, "x", "y")
 
 
 if __name__ == "__main__":
