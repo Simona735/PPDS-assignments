@@ -119,6 +119,7 @@ def producer_consumer(produce, process, producers, consumers, size):
     shared.items.signal(100)
     shared.free.signal(100)
     [t.join() for t in producers + consumers]
+    return shared.produced
 
 
 def main():
@@ -142,12 +143,12 @@ def main():
             for i in range(10):
                 print(".", end=" ")
                 start = time()
-                producer_consumer(production_time,
+                produced = producer_consumer(production_time,
                                   processing_time,
                                   producers_count,
                                   consumers_count,
                                   storage_size)
-                optimality_values.append(shared.produced /(time() - start))
+                optimality_values.append(produced /(time() - start))
             optimality[m][n] = average(optimality_values)
         print()
     print("\n", optimality)
