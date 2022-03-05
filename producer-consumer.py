@@ -11,48 +11,6 @@ from random import randint
 from fei.ppds import *
 
 
-class Lightswitch:
-    """
-    Lightswitch object. Syncronization object that implements
-    two methods - lock and unlock.
-    """
-        
-    def __init__(self):
-        """ Initialize Lightswitch. """
-        self.counter = 0
-        self.mutex = Mutex()
-
-    def lock(self, semaphore):
-        """
-        The lock() function works on the principle that the first thread
-        to "enter the room" calls wait() on the semaphore to signal
-        that the room is occupied (i.e., locked).
-
-        Args:
-            semaphore(Semaphore): semaphore object
-        """
-        self.mutex.lock()
-        if not self.counter:
-            semaphore.wait()
-        self.counter += 1
-        self.mutex.unlock()
-
-    def unlock(self, semaphore):
-        """
-        The unlock() function works on the principle that the last thread
-        to "leave the room" calls signal() on the semaphore to signal
-        that the room is free (i.e., unlocked).
-
-        Args:
-            semaphore(Semaphore): semaphore object
-        """
-        self.mutex.lock()
-        self.counter -= 1
-        if not self.counter:
-            semaphore.signal()
-        self.mutex.unlock()
-
-
 class Shared:
     """
     Shared object. Oject represents a "warehouse" in a consumer-producer
@@ -138,8 +96,7 @@ def main():
         shared.finished = True
         shared.items.signal(100)
         shared.free.signal(100)
-        [t.join() for t in producers + consumers]
-    
+        [t.join() for t in producers + consumers]    
 
 
 if __name__ == "__main__":
