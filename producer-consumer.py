@@ -108,26 +108,28 @@ def main():
     storage_size = 1
     optimality = []
 
-    optimality.clear()
-    for i in range(10):
-        start = time()
-        shared = Shared(storage_size)
-        producers = [Thread(producer,
-                            shared,
-                            production_time) for _ in range(producers_count)]
-        consumers = [Thread(consumer,
-                            shared,
-                            processing_time) for _ in range(consumers_count)]
-
-        sleep(2)
-        shared.finished = True
-        shared.items.signal(100)
-        shared.free.signal(100)
-        [t.join() for t in producers + consumers]
-        end = time()
-        elapsed = end - start
-        optimality.append(shared.produced / elapsed)
-    print(optimality)
+    for m in range(len([1, 2, 3])):
+        for n in range(len([1, 2, 3])):
+            optimality.clear()
+            for i in range(10):
+                start = time()
+                shared = Shared(storage_size)
+                producers = [Thread(producer,
+                                    shared,
+                                    production_time) for _ in range(producers_count)]
+                consumers = [Thread(consumer,
+                                    shared,
+                                    processing_time) for _ in range(consumers_count)]
+        
+                sleep(2)
+                shared.finished = True
+                shared.items.signal(100)
+                shared.free.signal(100)
+                [t.join() for t in producers + consumers]
+                end = time()
+                elapsed = end - start
+                optimality.append(shared.produced / elapsed)
+            print(optimality)
 
 
 if __name__ == "__main__":
