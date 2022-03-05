@@ -111,11 +111,14 @@ def main():
     producers_count = 5
     consumers_count = 5
     storage_size = 4
-    optimality = np.empty([3, 3], dtype=int)
 
-    for m in range(len([1, 2, 3])):
+    param1 = [1, 2, 3]
+    param2 = [1, 2, 3]
+    optimality = np.empty([len(param1), len(param2)], dtype=int)
+
+    for m in range(len(param1)):
         average_optimality = []
-        for n in range(len([1, 2, 3])):
+        for n in range(len(param2)):
             print("\n", m, n,"\t", end=" ")
             optimality_values = []
             for i in range(10):
