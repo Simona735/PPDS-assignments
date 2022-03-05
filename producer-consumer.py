@@ -25,7 +25,8 @@ class Shared:
         whether the activity is finished. The mutex parameter ensures
         the integrity of the access. Parameter "items" expresses the total
         number of slots and the parameter "free" expresses the number of
-        free slots. 
+        free slots. Last parameter "produced" is to count all ever produced
+        items.
 
         Args:
             size(int): size of Shared object. The parameter expresses
@@ -35,6 +36,7 @@ class Shared:
         self.mutex = Mutex()
         self.free = Semaphore(size)
         self.items = Semaphore(0)
+        self.produced = 0
 
 
 def producer(shared, produce_time):
@@ -52,7 +54,7 @@ def producer(shared, produce_time):
         if shared.finished:
             break
         shared.mutex.lock()
-        sleep(randint(1, 10) / 1000)
+        shared.produced += 1
         shared.mutex.unlock()
         shared.items.signal()
 
@@ -105,6 +107,7 @@ def main():
     consumers_count = 1
     storage_size = 1
 
+    
     for i in range(10):
         print(i)
         start = time()
