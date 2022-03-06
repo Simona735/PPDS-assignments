@@ -107,10 +107,27 @@ def surface_plot(x, y, z, x_label, y_label):
 
 
 def average(list_values):
+    """
+    Copmute an average value of 1D list.
+
+    Args:
+        list_values([]): list of values, possible values are int,
+            double or float
+    """
     return sum(list_values) / len(list_values)
 
 
 def producer_consumer(produce, process, producers, consumers, size):
+    """
+    Model the problem of Producers-consumers.
+
+    Args:
+        produce(double): production time in seconds
+        process(double): processing time in seconds
+        producers(int): number of producers
+        consumers(int): number of consumers 
+        size(int): storage size 
+    """
     shared = Shared(size)
     producers = [Thread(producer,
                         shared,
