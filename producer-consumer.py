@@ -155,10 +155,10 @@ def main():
     consumers_count = 5
     storage_size = 20
 
-    param1 = [0.001, 0.002, 0.005, 0.007, 0.01, 0.02, 0.05, 0.07, 0.1, 0.2]
-    param2 = [0.001, 0.002, 0.005, 0.007, 0.01, 0.02, 0.05, 0.07, 0.1, 0.2]
-    param1_label = "Production_time"
-    param2_label = "Processing_time"
+    param1 = [0.001, 0.002, 0.005, 0.007, 0.01, 0.02, 0.05, 0.07]
+    param2 = [0.001, 0.002, 0.005, 0.007, 0.01, 0.02, 0.05, 0.07]
+    param1_label = "Production time"
+    param2_label = "Processing time"
     optimality = np.empty([len(param1), len(param2)], dtype=int)
 
     for m in range(len(param1)):
