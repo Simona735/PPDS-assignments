@@ -116,5 +116,115 @@ As mentioned, the method initializes the necessary elements and starts the actua
 
 # Experiments
 
+The assignment was to experiment with the following parameters:
+- product production time,
+- product processing time,
+- number of consumers,
+- number of producers,
+- the size of the storage facility (warehouse).
+
+The assignment further states that we should try to experimentally find out what parameters are optimal for your system by choosing an optimality criterion and evaluating the results of the experiments. 
+The criterion chosen was the number of products produced per unit time.
+
+## Experiment 01
+
+In the first experiment, we considered the relationship between the number of producers and production time. It is expected that we will get higher values the more consumers we use and also higher values the less production time we choose.
+
+Selected values for experiment:
+
+```python
+processing_time = 0.01
+consumers_count = 5
+storage_size = 5
+
+param1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]                                       # Producers count
+param2 = [0.001, 0.002, 0.005, 0.007, 0.01, 0.02, 0.05, 0.07, 0.1, 0.5]        # Production time
+```
+
+Resulting chart:
+
+![Experiment 01](images/experiment%201.png?raw=true "Experiment 01")
+
+The values changed exactly as expected. It goes without saying that this increase must end somewhere, because the number of consumers and the size of the storage are constant and therefore the increase in products per second has a certain limit.
+
+Let's slightly change the values to show that the increase stops.
+
+Selected values:
+
+```python
+processing_time = 0.01
+consumers_count = 5
+storage_size = 5
+
+param1 = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]                                  # Producers count
+param2 = [0.001, 0.002, 0.005, 0.007, 0.01, 0.02, 0.05, 0.07, 0.1, 0.2]        # Production time
+```
+
+Resulting chart:
+
+![Experiment 01-2](images/experiment%201-2.png?raw=true "Experiment 01-2")
+
+I have highlighted the increase on line for time value 0.1 and we can see that the increase stops after a certain amount of producers, specifically 10.
+Let's set the default producers amount to 10.
+
+## Experiment 02
+
+In the second experiment, we considered the relationship between the number of producers and storage size. 
+
+Selected values for experiment:
+
+```python
+production_time = 0.02
+processing_time = 0.01
+consumers_count = 5
+
+param1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]            # Producers count
+param2 = [10, 12, 15, 17, 20, 22, 25, 27, 30, 32]   # Storage size
+```
+Resulting chart:
+
+![Experiment 02](images/experiment%202.png?raw=true "Experiment 02")
+
+In the graph we observe that with 10 producers and a storage capacity of 20, the growth is maximized. Therefore, let's set the default storage capacity to 20.
+
+## Experiment 03
+
+We have set 2 values, namely the number of producers and the storage size. Let's see what effect this has on other values. Specifically, let's look at the relationship between production time and processing time.
+
+Selected values for experiment:
+
+```python
+producers_count = 10
+consumers_count = 5
+storage_size = 20
+
+param1 = [0.001, 0.002, 0.005, 0.007, 0.01, 0.02, 0.05, 0.07]    # Production time
+param2 = [0.001, 0.002, 0.005, 0.007, 0.01, 0.02, 0.05, 0.07]    # Processing time
+```
+Resulting chart from two views:
+
+![Experiment 03a](images/experiment%203a.png?raw=true "Experiment 03a")
+![Experiment 03b](images/experiment%203b.png?raw=true "Experiment 03b")
+
+Personally, I would expect the graph to be symmetrical along its diagonal. 
+
+We can observe that for a production time of 0.05 the total production decreases if the processing time also decreases. One would expect production to increase with decreasing times, as it means faster process overall, but in this case it is the other way around. The conclusion is that the correct ratio of these times is important. If the times are different, the processing time must be at least twice as large. We choose a value of 0.02 for both times.
 
 # Conclusion
+
+
+Selected optimal parameters:
+
+```python
+production_time = 0.02
+processing_time = 0.02
+producers_count = 10
+consumers_count = 5
+storage_size = 20
+```
+
+The parameters are linked together in such a way that if we increase the number of producers, the number of consumers, or the size of the storage, the number of products produced per second will also increase. If we increase only 2 of these parameters, there will be a limit where the increase stops, because the third parameter will be limiting (see experiment 2). 
+
+If we decrease the production time and the processing time, the number of products produced will increase. We have to decrease the values in the same way or according to the instructions in the conclusion of experiment 3.
+
+If we adjust the time variable and the number variable at the same time, we will again reach a point where we will not achieve further improvement because some of the other parameters will be limiting (see experiment 1).
