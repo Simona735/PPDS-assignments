@@ -155,8 +155,8 @@ def main():
     consumers_count = 5
     storage_size = 5
 
-    param1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    param2 = [0.001, 0.002, 0.005, 0.007, 0.01, 0.02, 0.05, 0.07, 0.1, 0.5]
+    param1 = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+    param2 = [0.001, 0.002, 0.005, 0.007, 0.01, 0.02, 0.05, 0.07, 0.1, 0.2]
     param1_label = "Producers count"
     param2_label = "Production time"
     optimality = np.empty([len(param1), len(param2)], dtype=int)
