@@ -2,7 +2,8 @@
 Copyright 2022 Simona Richterova.
 Licensed to MIT https://spdx.org/licenses/MIT.html
 
-This module computes fibonacci sequence using various synchronization ADT.
+This module implements the solution for Producer-Conusmer problem and
+executes experiments to find out optimal settings for given variables.
 """
 
 
