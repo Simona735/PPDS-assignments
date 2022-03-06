@@ -126,7 +126,10 @@ def producer_consumer(produce, process, producers, consumers, size):
         process(double): processing time in seconds
         producers(int): number of producers
         consumers(int): number of consumers 
-        size(int): storage size 
+        size(int): storage size
+        
+    Returns:
+        shared.produced(int) - all products ever added to the storage
     """
     shared = Shared(size)
     producers = [Thread(producer,
