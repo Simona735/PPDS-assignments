@@ -150,7 +150,7 @@ def producer_consumer(produce, process, producers, consumers, size):
 
 def main():
     production_time = 0.02
-    processing_time = 0.01
+    processing_time = 0.02
     producers_count = 10
     consumers_count = 5
     storage_size = 20
