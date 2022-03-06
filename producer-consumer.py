@@ -102,7 +102,7 @@ def surface_plot(x, y, z, x_label, y_label):
                       scene=dict(
                           xaxis=dict(title=x_label),
                           yaxis=dict(title=y_label),
-                          zaxis=dict(title="Počet výrobkov za sekundu")))
+                          zaxis=dict(title="Products per second")))
     fig.show()
 
 
@@ -119,7 +119,7 @@ def producer_consumer(produce, process, producers, consumers, size):
                         shared,
                         process) for _ in range(consumers)]
 
-    sleep(0.5)
+    sleep(0.2)
     shared.finished = True
     shared.items.signal(100)
     shared.free.signal(100)
@@ -128,16 +128,16 @@ def producer_consumer(produce, process, producers, consumers, size):
 
 
 def main():
-    production_time = 0.2
-    processing_time = 0.1
+    production_time = 0.02
+    processing_time = 0.01
     producers_count = 5
     consumers_count = 5
     storage_size = 5
 
     param1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     param2 = [0.001, 0.002, 0.005, 0.007, 0.01, 0.02, 0.05, 0.07, 0.1, 0.5]
-    param1_label = "x"
-    param2_label = "y"
+    param1_label = "Producers count"
+    param2_label = "Production time"
     optimality = np.empty([len(param1), len(param2)], dtype=int)
 
     for m in range(len(param1)):
@@ -154,7 +154,7 @@ def main():
                                   consumers_count,
                                   storage_size)
                 optimality_values.append(produced /(time() - start))
-            optimality[m][n] = average(optimality_values)
+            optimality[n][m] = average(optimality_values)
         print()
     print("\n", optimality)
     surface_plot(param1, param2, optimality, param1_label, param2_label)
