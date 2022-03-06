@@ -114,6 +114,10 @@ def average(list_values):
     Args:
         list_values([]): list of values, possible values are int,
             double or float
+
+    Returns:
+        average(value) - average value of list. Return type depends
+            on values type of input list.
     """
     return sum(list_values) / len(list_values)
 
