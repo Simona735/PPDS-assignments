@@ -35,48 +35,43 @@ def eat(philosopher_id):
     sleep(randint(40, 50) / 1000)
 
 
-def get_forks(forks, footman, philosopher_id, first, second):
+def get_forks(forks, philosopher_id, first, second):
     """
     Acquire forks.
 
     Args:
         forks(Semaphore[]): list of forks represented by ADT Semaphore
-        footman(Semaphore): footman represented by ADT Semaphore
         philosopher_id(int): ID of a philosopher
         first(int): ID of fork that is taken first. 
         second(int): ID of fork that is taken second.
     """
-    footman.wait()
     print(f'{philosopher_id:02d}: try to get forks')
     forks[first].wait()
     forks[second].wait()
-    print(f'{philosopher_id:02d}: forks taken')
+    print(f'{philosopher_id:02d}: forks taken, {first}, {second}')
 
 
-def put_forks(forks, footman, philosopher_id, first, second):
+def put_forks(forks, philosopher_id, first, second):
     """
     Put forks down.
 
     Args:
         forks(Semaphore[]): list of forks represented by ADT Semaphore
-        footman(Semaphore): footman represented by ADT Semaphore
         philosopher_id(int): ID of a philosopher
         first(int): ID of fork that is taken first.
         second(int): ID of fork that is taken second.
     """
     forks[first].signal()
     forks[second].signal()
-    print(f'{philosopher_id:02d}: forks put down')
-    footman.signal()
+    print(f'{philosopher_id:02d}: forks put down, {first}, {second}')
 
 
-def philosopher(forks, footman, philosopher_id, main_hand):
+def philosopher(forks, philosopher_id, main_hand):
     """
     Infinite cycle for The Dining Philosopher Problem.
 
     Args:
         forks(Semaphore[]): list of forks represented by ADT Semaphore
-        footman(Semaphore): footman represented by ADT Semaphore
         philosopher_id(int): ID of a philosopher
         main_hand(int): philosopher's main hand. Values:
             0 - left-handed,
@@ -93,9 +88,9 @@ def philosopher(forks, footman, philosopher_id, main_hand):
 
     while True:
         think(philosopher_id)
-        get_forks(forks, footman, philosopher_id, first_fork, second_fork)
+        get_forks(forks, philosopher_id, first_fork, second_fork)
         eat(philosopher_id)
-        put_forks(forks, footman, philosopher_id, first_fork, second_fork)
+        put_forks(forks, philosopher_id, first_fork, second_fork)
 
 
 def get_random_hands():
@@ -120,13 +115,11 @@ def get_random_hands():
 
 def main():
     forks = [Semaphore(1) for _ in range(PHIL_NUM)]
-    footman = Semaphore(PHIL_NUM - 1)
 
     philosopher_hands = get_random_hands()
 
     philosophers = [Thread(philosopher,
                            forks,
-                           footman,
                            philosopher_id,
                            philosopher_hands[philosopher_id])
                     for philosopher_id in range(PHIL_NUM)]
