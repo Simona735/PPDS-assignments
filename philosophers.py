@@ -35,7 +35,7 @@ def eat(philosopher_id):
     sleep(randint(40, 50) / 1000)
 
 
-def get_forks(forks, footman, philosopher_id):
+def get_forks(forks, footman, philosopher_id, first, second):
     """
     Acquire forks.
 
@@ -43,15 +43,17 @@ def get_forks(forks, footman, philosopher_id):
         forks(Semaphore[]): list of forks represented by ADT Semaphore
         footman(Semaphore): footman represented by ADT Semaphore
         philosopher_id(int): ID of a philosopher
+        first(int): ID of fork that is taken first. 
+        second(int): ID of fork that is taken second.
     """
     footman.wait()
     print(f'{philosopher_id:02d}: try to get forks')
-    forks[philosopher_id].wait()
-    forks[(philosopher_id + 1) % PHIL_NUM].wait()
+    forks[first].wait()
+    forks[second].wait()
     print(f'{philosopher_id:02d}: forks taken')
 
 
-def put_forks(forks, footman, philosopher_id):
+def put_forks(forks, footman, philosopher_id, first, second):
     """
     Put forks down.
 
@@ -59,9 +61,11 @@ def put_forks(forks, footman, philosopher_id):
         forks(Semaphore[]): list of forks represented by ADT Semaphore
         footman(Semaphore): footman represented by ADT Semaphore
         philosopher_id(int): ID of a philosopher
+        first(int): ID of fork that is taken first.
+        second(int): ID of fork that is taken second.
     """
-    forks[philosopher_id].signal()
-    forks[(philosopher_id + 1) % PHIL_NUM].signal()
+    forks[first].signal()
+    forks[second].signal()
     print(f'{philosopher_id:02d}: forks put down')
     footman.signal()
 
@@ -80,11 +84,18 @@ def philosopher(forks, footman, philosopher_id, main_hand):
     """
     sleep(randint(40, 100) / 1000)
 
+    if main_hand:
+        first_fork = philosopher_id
+        second_fork = (philosopher_id + 1) % PHIL_NUM
+    else:
+        second_fork = philosopher_id
+        first_fork = (philosopher_id + 1) % PHIL_NUM
+
     while True:
         think(philosopher_id)
-        get_forks(forks, footman, philosopher_id)
+        get_forks(forks, footman, philosopher_id, first_fork, second_fork)
         eat(philosopher_id)
-        put_forks(forks, footman, philosopher_id)
+        put_forks(forks, footman, philosopher_id, first_fork, second_fork)
 
 
 def get_random_hands():
