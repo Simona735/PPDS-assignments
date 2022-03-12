@@ -7,3 +7,4 @@ The content of the PPDS course assignments are various synchronization problems 
 - [Assignment 01](https://github.com/Simona735/PPDS-assignments/tree/01)
 - [Assignment 02](https://github.com/Simona735/PPDS-assignments/tree/02)
 - [Assignment 03](https://github.com/Simona735/PPDS-assignments/tree/03)
+- [Assignment 04](https://github.com/Simona735/PPDS-assignments/tree/04)
