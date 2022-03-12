@@ -47,8 +47,9 @@ def get_forks(forks, philosopher_id, first, second):
     """
     print(f'{philosopher_id:02d}: try to get forks')
     forks[first].wait()
+    print(f'{philosopher_id:02d}: first fork taken - {first}')
     forks[second].wait()
-    print(f'{philosopher_id:02d}: forks taken, {first}, {second}')
+    print(f'{philosopher_id:02d}: second fork taken - {second}')
 
 
 def put_forks(forks, philosopher_id, first, second):
@@ -62,8 +63,9 @@ def put_forks(forks, philosopher_id, first, second):
         second(int): ID of fork that is taken second.
     """
     forks[first].signal()
+    print(f'{philosopher_id:02d}: first fork put down - {first}')
     forks[second].signal()
-    print(f'{philosopher_id:02d}: forks put down, {first}, {second}')
+    print(f'{philosopher_id:02d}: second fork put down - {second}')
 
 
 def philosopher(forks, philosopher_id, main_hand):
