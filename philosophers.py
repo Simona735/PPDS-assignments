@@ -66,7 +66,7 @@ def put_forks(forks, footman, philosopher_id):
     footman.signal()
 
 
-def philosopher(forks, footman, philosopher_id):
+def philosopher(forks, footman, philosopher_id, main_hand):
     """
     Infinite cycle for The Dining Philosopher Problem.
 
@@ -74,6 +74,9 @@ def philosopher(forks, footman, philosopher_id):
         forks(Semaphore[]): list of forks represented by ADT Semaphore
         footman(Semaphore): footman represented by ADT Semaphore
         philosopher_id(int): ID of a philosopher
+        main_hand(int): philosopher's main hand. Values:
+            0 - left-handed,
+            1 - right-handed.
     """
     sleep(randint(40, 100) / 1000)
 
@@ -113,7 +116,8 @@ def main():
     philosophers = [Thread(philosopher,
                            forks,
                            footman,
-                           philosopher_id)
+                           philosopher_id,
+                           philosopher_hands[philosopher_id])
                     for philosopher_id in range(PHIL_NUM)]
     [p.join() for p in philosophers]
 
