@@ -7,7 +7,7 @@ by implementing right-handed and left-handed philosophers.
 """
 
 from time import *
-from random import randint
+from random import randint, choice, shuffle
 from fei.ppds import Thread, Semaphore, print
 
 PHIL_NUM = 5
@@ -84,9 +84,32 @@ def philosopher(forks, footman, philosopher_id):
         put_forks(forks, footman, philosopher_id)
 
 
+def get_random_hands():
+    """
+    Assign right and left-handed philosophers randomly with at least
+    one right-haned and one left-handed.
+    0 - left-handed.
+    1 - right-handed.
+
+    Returns:
+        int[]: list of zeros and ones representing right and
+        left-handed people. 
+    """
+    philosopher_hands = [0, 1]
+
+    for x in range(PHIL_NUM - 2):
+        philosopher_hands.append(choice([0, 1]))
+    shuffle(philosopher_hands)
+
+    return philosopher_hands
+
+
 def main():
     forks = [Semaphore(1) for _ in range(PHIL_NUM)]
     footman = Semaphore(PHIL_NUM - 1)
+
+    philosopher_hands = get_random_hands()
+
     philosophers = [Thread(philosopher,
                            forks,
                            footman,
