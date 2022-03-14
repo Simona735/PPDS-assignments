@@ -63,6 +63,39 @@ class Lightswitch:
         self.mutex.unlock()
 
 
+def monitor(monitor_id, access_data,
+            turnstile, monitor_lightswitch, valid_data):
+    """
+    Method to simulate monitor actions. Main purpose of monitors is
+    to access data. The access takes from 40 to 50 ms.
+
+    Args:
+        monitor_id(int): id of monitor
+        access_data(Semaphore): semaphore to simulate data resource,
+            and it's availability
+        turnstile(Semaphore): Semaphore object implemented as turnstile.
+            It is used to block sensors.
+        monitor_lightswitch(Lightswitch): lightswitch object to lock and
+            unlock data for access
+        valid_data(Event[]): list of Events. Used for initial monitor
+            startup.
+    """
+    for i in range(SENSORS):
+        valid_data[i].wait()
+
+    while True:
+        turnstile.wait()
+        turnstile.signal()
+        waiting_monitors = monitor_lightswitch.lock(access_data)
+
+        reading_duration = randint(40, 50) / 1000
+        print(f'monitor: {monitor_id:02d}: ' +
+              f'waiting monitors={waiting_monitors:02d}, ' +
+              f'reading duration={reading_duration:.3f}')
+        sleep(reading_duration)
+        monitor_lightswitch.unlock(access_data)
+
+
 def init():
     """
     Initialize all values, create threads and execute thier methods. 
