@@ -63,9 +63,23 @@ class Lightswitch:
         self.mutex.unlock()
 
 
-def main():
-    pass    
+def init():
+    """
+    Initialize all values, create threads and execute thier methods. 
+    """
+    access_data = Semaphore(1)
+    turnstile = Semaphore(1)
+    monitor_lightswitch = Lightswitch()
+    sensor_lightswitch = Lightswitch()
+    valid_data = [Event() for _ in range(SENSORS)]
+
+    for monitor_id in range(MONITORS):
+        Thread(monitor, monitor_id, access_data,
+               turnstile, monitor_lightswitch, valid_data)
+    for sensor_id in range(SENSORS):
+        Thread(sensor, sensor_id, access_data,
+               turnstile, sensor_lightswitch, valid_data)
 
 if __name__ == '__main__':
-    main()
+    init()
 
