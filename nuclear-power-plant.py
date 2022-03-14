@@ -96,6 +96,41 @@ def monitor(monitor_id, access_data,
         monitor_lightswitch.unlock(access_data)
 
 
+def sensor(sensor_id, access_data, turnstile, sensor_lightswitch, valid_data):
+    """
+    Method to simulate sensors actions. Main purpose of sensors is
+    to write data. This action is repeated every 50 to 60 ms.
+
+    Args:
+        sensor_id(int): id of sensor
+        access_data(Semaphore): semaphore to simulate data resource,
+            and it's availability
+        turnstile(Semaphore): Semaphore object implemented as turnstile.
+            It is used to block sensors.
+        sensor_lightswitch(Lightswitch): lightswitch object to lock and
+            unlock data for access
+        valid_data(Event[]): list of Events. Used for initial monitor
+            startup.
+    """
+    while True:
+        sleep(randint(50, 60) / 1000)
+
+        turnstile.wait()
+        waiting_sensors = sensor_lightswitch.lock(access_data)
+        turnstile.signal()
+
+        if not sensor_id:
+            writing_duration = randint(20, 25) / 1000
+        else:
+            writing_duration = randint(10, 20) / 1000
+        print(f'sensor {sensor_id:02d}: ' +
+              f'waiting sensors={waiting_sensors:02d}, ' +
+              f'writing duration={writing_duration:.3f}')
+        sleep(writing_duration)
+        valid_data[sensor_id].signal()
+        sensor_lightswitch.unlock(access_data)
+
+
 def init():
     """
     Initialize all values, create threads and execute thier methods. 
