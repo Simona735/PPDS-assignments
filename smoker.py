@@ -27,6 +27,24 @@ class Shared(object):
         self.mutex = Mutex()
 
 
+def make_cigarette(name):
+    """
+    Simulate cigarette making by sleep.
+
+    Args:
+        name(str): smoker name
+    """
+    print(f"smoker '{name}' makes cigarette")
+    sleep(randint(0, 10) / 100)
+
+
+def smoke():
+    """
+    Simulate smoking by sleep.
+    """
+    sleep(randint(0, 10) / 100)
+
+
 def smoker_tobacco(shared):
     """
     Simulate smoker with infinite tobacco supplies.
