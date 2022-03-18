@@ -5,6 +5,7 @@ Licensed to MIT https://spdx.org/licenses/MIT.html
 This module implements Cigarette smokers problem and it's solution.
 """
 
+
 from time import *
 from random import randint
 from fei.ppds import Thread, Semaphore, Mutex, Event, print
