@@ -25,3 +25,45 @@ class Shared(object):
         self.numPaper = 0
 
         self.mutex = Mutex()
+
+
+def agent_1(shared):
+    """
+    Simulate agent who provides paper and tobacco.
+
+    Args:
+        shared(Shared): shared object with sync mechanisms.
+    """
+    while True:
+        sleep(randint(0, 10) / 100)
+        print("agent: tobacco, paper --> smoker 'match'")
+        shared.tobacco.signal()
+        shared.paper.signal()
+
+
+def agent_2(shared):
+    """
+    Simulate agent who provides paper and match.
+
+    Args:
+        shared(Shared): shared object with sync mechanisms.
+    """
+    while True:
+        sleep(randint(0, 10) / 100)
+        print("agent: paper, match --> smoker 'tobacco'")
+        shared.paper.signal()
+        shared.match.signal()
+
+
+def agent_3(shared):
+    """
+    Simulate agent who provides match and tobacco.
+
+    Args:
+        shared(Shared): shared object with sync mechanisms.
+    """
+    while True:
+        sleep(randint(0, 10) / 100)
+        print("agent: tobacco, match --> smoker 'paper'")
+        shared.tobacco.signal()
+        shared.match.signal()
