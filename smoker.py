@@ -27,6 +27,54 @@ class Shared(object):
         self.mutex = Mutex()
 
 
+def smoker_tobacco(shared):
+    """
+    Simulate smoker with infinite tobacco supplies.
+    Smoker waits for pusher to provide paper and match,
+    then makes a cigarette and smokes it.
+
+    Args:
+        shared(Shared): shared object with sync mechanisms.
+    """
+    while True:
+        sleep(randint(0, 10) / 100)
+        shared.pusherTobacco.wait()
+        make_cigarette("tobacco")
+        smoke()
+
+
+def smoker_paper(shared):
+    """
+    Simulate smoker with infinite paper supplies.
+    Smoker waits for pusher to provide tobacco and match,
+    then makes a cigarette and smokes it.
+
+    Args:
+        shared(Shared): shared object with sync mechanisms.
+    """
+    while True:
+        sleep(randint(0, 10) / 100)
+        shared.pusherPaper.wait()
+        make_cigarette("paper")
+        smoke()
+
+
+def smoker_match(shared):
+    """
+    Simulate smoker with infinite match supplies.
+    Smoker waits for pusher to provide paper and tobacco,
+    then makes a cigarette and smokes it.
+
+    Args:
+        shared(Shared): shared object with sync mechanisms.
+    """
+    while True:
+        sleep(randint(0, 10) / 100)
+        shared.pusherMatch.wait()
+        make_cigarette("match")
+        smoke()
+
+
 def agent_1(shared):
     """
     Simulate agent who provides paper and tobacco.
