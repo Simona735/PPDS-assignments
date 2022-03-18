@@ -233,3 +233,26 @@ def pusher_match(shared):
             else:
                 shared.numMatch += 1
         shared.mutex.unlock()
+
+
+def main():
+    shared = Shared()
+
+    pushers = [Thread(pusher_tobacco, shared),
+               Thread(pusher_paper, shared),
+               Thread(pusher_match, shared)]
+
+    smokers = [Thread(smoker_tobacco, shared),
+               Thread(smoker_paper, shared),
+               Thread(smoker_match, shared)]
+
+    agents = [Thread(agent_1, shared),
+              Thread(agent_2, shared),
+              Thread(agent_3, shared)]
+
+    for t in pushers + smokers + agents:
+        t.join()
+
+
+if __name__ == "__main__":
+    main()
