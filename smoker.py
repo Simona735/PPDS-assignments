@@ -133,3 +133,103 @@ def agent_3(shared):
         print("agent: tobacco, match --> smoker 'paper'")
         shared.tobacco.signal()
         shared.match.signal()
+
+
+def pusher_tobacco(shared):
+    """
+    Simulate tobacco pusher. When he receives tobacco, he checks for paper
+    and match. He signals to given smoker based on the available supplies.
+
+    Args:
+        shared(Shared): shared object with sync mechanisms.
+    """
+    while True:
+        shared.tobacco.wait()
+        shared.mutex.lock()
+        order = randint(0, 1)
+        if order:
+            if shared.numPaper:
+                shared.numPaper -= 1
+                shared.pusherMatch.signal()
+            elif shared.numMatch:
+                shared.numMatch -= 1
+                shared.pusherPaper.signal()
+            else:
+                shared.numTobacco += 1
+        else:
+            if shared.numMatch:
+                shared.numMatch -= 1
+                shared.pusherPaper.signal()
+            elif shared.numPaper:
+                shared.numPaper -= 1
+                shared.pusherMatch.signal()
+            else:
+                shared.numTobacco += 1
+
+        shared.mutex.unlock()
+
+
+def pusher_paper(shared):
+    """
+    Simulate paper pusher. When he receives paper, he checks for tobacco
+    and match. He signals to given smoker based on the available supplies.
+
+    Args:
+        shared(Shared): shared object with sync mechanisms.
+    """
+    while True:
+        shared.paper.wait()
+        shared.mutex.lock()
+        order = randint(0, 1)
+        if order:
+            if shared.numMatch:
+                shared.numMatch -= 1
+                shared.pusherTobacco.signal()
+            elif shared.numTobacco:
+                shared.numTobacco -= 1
+                shared.pusherMatch.signal()
+            else:
+                shared.numPaper += 1
+        else:
+            if shared.numTobacco:
+                shared.numTobacco -= 1
+                shared.pusherMatch.signal()
+            elif shared.numMatch:
+                shared.numMatch -= 1
+                shared.pusherTobacco.signal()
+            else:
+                shared.numPaper += 1
+        shared.mutex.unlock()
+
+
+def pusher_match(shared):
+    """
+    Simulate match pusher. When he receives match, he checks for tobacco
+    and paper. He signals to given smoker based on the available supplies.
+
+    Args:
+        shared(Shared): shared object with sync mechanisms.
+    """
+    while True:
+        shared.match.wait()
+        shared.mutex.lock()
+        order = randint(0, 1)
+        if order:
+            if shared.numTobacco:
+                shared.numTobacco -= 1
+                shared.pusherPaper.signal()
+            elif shared.numPaper:
+                shared.numPaper -= 1
+                shared.pusherTobacco.signal()
+            else:
+                shared.numMatch += 1
+        else:
+            if shared.numPaper:
+                shared.numPaper -= 1
+                shared.pusherTobacco.signal()
+            elif shared.numTobacco:
+                shared.numTobacco -= 1
+                shared.pusherPaper.signal()
+            else:
+                shared.numMatch += 1
+        shared.mutex.unlock()
