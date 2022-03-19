@@ -44,6 +44,32 @@ class Shared(object):
         self.barrier3 = SimpleBarrier(COOKS)
 
 
+def get_serving_from_pot(shared, i):
+    """
+    Simulate taking a portion from pot by decrementing the serving's
+    counter and printout.
+
+    Args:
+        shared(Shared): shared object with sync mechanisms.
+        i(int): id of savage that takes a portion form pot
+    """
+    shared.servings -= 1
+    print(f"savage {i}: takes from pot, portions left: {shared.servings}")
+
+
+def put_servings_in_pot(shared, i):
+    """
+    Simulate putting portions to pot by adding the count to the serving's
+    counter and printout.
+
+    Args:
+        shared(Shared): shared object with sync mechanisms.
+        i(int): id of cook that adds portions to pot
+    """
+    print(f"cook {i}: all cooked, servings to pot")
+    shared.servings += SERVINGS
+
+
 def cook(shared, i):
     """
     Simulate the process of a cook, which includes waiting for pot
