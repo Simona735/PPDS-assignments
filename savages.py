@@ -47,6 +47,12 @@ class Shared(object):
 def main():
     shared = Shared()
 
+    savages = [Thread(savage, shared, i) for i in range(SAVAGES)]
+    cooks = [Thread(cook, shared, i) for i in range(COOKS)]
+
+    for t in savages + cooks:
+        t.join()
+
 
 if __name__ == "__main__":
     main()
