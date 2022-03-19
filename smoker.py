@@ -132,8 +132,8 @@ def agent_3(shared):
     while True:
         sleep(randint(0, 10) / 100)
         print("agent: tobacco, match --> smoker 'paper'")
-        shared.tobacco.signal()
         shared.match.signal()
+        shared.tobacco.signal()
 
 
 def pusher_tobacco(shared):
@@ -147,26 +147,14 @@ def pusher_tobacco(shared):
     while True:
         shared.tobacco.wait()
         shared.mutex.lock()
-        order = randint(0, 1)
-        if order:
-            if shared.num_paper:
-                shared.num_paper -= 1
-                shared.pusher_to_match_smoker.signal()
-            elif shared.num_match:
-                shared.num_match -= 1
-                shared.pusher_to_paper_smoker.signal()
-            else:
-                shared.num_tobacco += 1
+        if shared.num_paper:
+            shared.num_paper -= 1
+            shared.pusher_to_match_smoker.signal()
+        elif shared.num_match:
+            shared.num_match -= 1
+            shared.pusher_to_paper_smoker.signal()
         else:
-            if shared.num_match:
-                shared.num_match -= 1
-                shared.pusher_to_paper_smoker.signal()
-            elif shared.num_paper:
-                shared.num_paper -= 1
-                shared.pusher_to_match_smoker.signal()
-            else:
-                shared.num_tobacco += 1
-
+            shared.num_tobacco += 1
         shared.mutex.unlock()
 
 
@@ -181,25 +169,14 @@ def pusher_paper(shared):
     while True:
         shared.paper.wait()
         shared.mutex.lock()
-        order = randint(0, 1)
-        if order:
-            if shared.num_match:
-                shared.num_match -= 1
-                shared.pusher_to_tobacco_smoker.signal()
-            elif shared.num_tobacco:
-                shared.num_tobacco -= 1
-                shared.pusher_to_match_smoker.signal()
-            else:
-                shared.num_paper += 1
+        if shared.num_match:
+            shared.num_match -= 1
+            shared.pusher_to_tobacco_smoker.signal()
+        elif shared.num_tobacco:
+            shared.num_tobacco -= 1
+            shared.pusher_to_match_smoker.signal()
         else:
-            if shared.num_tobacco:
-                shared.num_tobacco -= 1
-                shared.pusher_to_match_smoker.signal()
-            elif shared.num_match:
-                shared.num_match -= 1
-                shared.pusher_to_tobacco_smoker.signal()
-            else:
-                shared.num_paper += 1
+            shared.num_paper += 1
         shared.mutex.unlock()
 
 
@@ -214,25 +191,14 @@ def pusher_match(shared):
     while True:
         shared.match.wait()
         shared.mutex.lock()
-        order = randint(0, 1)
-        if order:
-            if shared.num_tobacco:
-                shared.num_tobacco -= 1
-                shared.pusher_to_paper_smoker.signal()
-            elif shared.num_paper:
-                shared.num_paper -= 1
-                shared.pusher_to_tobacco_smoker.signal()
-            else:
-                shared.num_match += 1
+        if shared.num_tobacco:
+            shared.num_tobacco -= 1
+            shared.pusher_to_paper_smoker.signal()
+        elif shared.num_paper:
+            shared.num_paper -= 1
+            shared.pusher_to_tobacco_smoker.signal()
         else:
-            if shared.num_paper:
-                shared.num_paper -= 1
-                shared.pusher_to_tobacco_smoker.signal()
-            elif shared.num_tobacco:
-                shared.num_tobacco -= 1
-                shared.pusher_to_paper_smoker.signal()
-            else:
-                shared.num_match += 1
+            shared.num_match += 1
         shared.mutex.unlock()
 
 
