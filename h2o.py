@@ -60,6 +60,16 @@ class Shared(object):
         self.hydroQueue = Semaphore(0)
 
 
+def bond(element_type=None):
+    """
+    Simulate H2O molecule bonding by printout.
+
+    Args:
+        element_type(str): element type. H - hydrogen, O - oxygen.
+    """
+    print(element_type, end='')
+
+
 def oxygen(shared):
     pass
 
