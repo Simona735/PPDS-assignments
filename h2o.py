@@ -92,7 +92,7 @@ def oxygen(shared):
 
     shared.oxyQueue.wait()
     if shared.rest:
-        print("O")
+        print("O", end='')
         return
     bond("O")
     shared.barrier.wait()
@@ -119,7 +119,7 @@ def hydrogen(shared):
 
     shared.hydroQueue.wait()
     if shared.rest:
-        print("H")
+        print("H", end='')
         return
     bond("H")
     shared.barrier.wait()
