@@ -58,6 +58,8 @@ class Shared(object):
         self.hydrogen = 0
         self.oxyQueue = Semaphore(0)
         self.hydroQueue = Semaphore(0)
+        self.finished = False
+        self.rest = False
 
 
 def bond(element_type=None):
