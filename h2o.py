@@ -7,29 +7,29 @@ This module implements The Building H2O Problem and it's solution.
 
 
 from time import *
-from random import randint, choice, shuffle
+from random import randint
 from fei.ppds import Thread, Mutex, Semaphore, print
 
 
-class SimpleBarrier:
+class SimpleBarrier(object):
     """
-    SimpleBarrier object. Event is used to implement the turnstile.
+    SimpleBarrier object.
+
     Args:
         threads_num(int): number of threads
     """
-        
+
     def __init__(self, threads_num):
         """
         Initialize SimpleBarrier.
-        
         Args:
             threads_num(int): number of threads
         """
         self.threads_num = threads_num
-        self.counter = 0
+        self.count = 0
         self.mutex = Mutex()
-        self.turnstile = Event()
- 
+        self.barrier = Semaphore(0)
+
     def wait(self):
         """
         The wait() function shall synchronize participating threads
@@ -37,12 +37,13 @@ class SimpleBarrier:
         the barrier. After that all threads are released to continue.
         """
         self.mutex.lock()
-        self.counter += 1
-        if self.counter == self.threads_num:
-            self.counter = 0
-            self.turnstile.signal()
+        self.count += 1
+        if self.count == self.threads_num:
+            print("")
+            self.count = 0
+            self.barrier.signal(self.threads_num)
         self.mutex.unlock()
-        self.turnstile.wait()
+        self.barrier.wait()
 
 
 class Shared(object):
