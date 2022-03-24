@@ -71,7 +71,30 @@ def bond(element_type=None):
 
 
 def oxygen(shared):
-    pass
+    """
+    Simulate oxygen element, and it's bonding with 2 hydrogen elements to a H2O molecule.
+
+    Args:
+        shared(Shared): shared object containing sync mechanisms.
+    """
+    shared.mutex.lock()
+    shared.oxygen += 1
+
+    if shared.hydrogen < 2:
+        shared.mutex.unlock()
+    else:
+        shared.oxygen -= 1
+        shared.hydrogen -= 2
+        shared.oxyQueue.signal()
+        shared.hydroQueue.signal(2)
+
+    shared.oxyQueue.wait()
+    if shared.rest:
+        print("O")
+        return
+    bond("O")
+    shared.barrier.wait()
+    shared.mutex.unlock()
 
 
 def hydrogen(shared):
