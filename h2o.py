@@ -139,7 +139,29 @@ def guardian(shared, run_time):
 
 
 def main():
-    pass
+    shared = Shared()
+    run_time = 3
+    threads = [Thread(guardian, shared, run_time)]
+
+    while not shared.finished:
+        sleep(randint(0, 2)/1000)
+        element_type = randint(0, 2)
+        if not element_type:
+            threads.append(Thread(oxygen, shared))
+        else:
+            threads.append(Thread(hydrogen, shared))
+
+    sleep(1)
+    # taking care of stuck/unbonded threads.
+    if shared.hydrogen > 0 or shared.oxygen > 0:
+        print(f"---- not boned elements ----\n" +
+              f"hydrogen: {shared.hydrogen}, oxygen: {shared.oxygen}")
+        shared.rest = True
+        shared.hydroQueue.signal(shared.hydrogen)
+        shared.oxyQueue.signal(shared.oxygen)
+
+    for t in threads:
+        t.join()
 
 
 if __name__ == "__main__":
