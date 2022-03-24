@@ -125,6 +125,19 @@ def hydrogen(shared):
     shared.barrier.wait()
 
 
+def guardian(shared, run_time):
+    """
+    Guardian controls the loop in main module.
+    It lets it run for a certain time, then interrupts it.
+
+    Args:
+        shared(Shared): shared object containing sync mechanisms.
+        run_time(float): time for which to run a program.
+    """
+    sleep(run_time)
+    shared.finished = True
+
+
 def main():
     pass
 
