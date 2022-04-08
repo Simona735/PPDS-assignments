@@ -75,6 +75,23 @@ def generate_random(from_val, to_val):
         print(f'increment_by_random closed')
 
 
+def squared():
+    """
+    Purpose of this generator is computing squared value of input number.
+
+    Yields:
+        int: total sum so far
+    """
+    try:
+        square = 0
+        while True:
+            number = yield square
+            square = number * number
+            print(f'Squared value: {square} = {number} * {number}')
+    except GeneratorExit:
+        print(f'squared closed')
+
+
 def main():
     pass
 
