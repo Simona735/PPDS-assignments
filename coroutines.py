@@ -53,6 +53,28 @@ class Scheduler(object):
                 print("Generator closed")
 
 
+def generate_random(from_val, to_val):
+    """
+    Purpose of this generator is to generate a random number in range given
+    by arguments.
+
+    Args:
+        from_val(int): bottom range for generating
+        to_val(int): top range for generating
+        
+    Yields:
+        int: new generated number in range 10-500
+    """
+    try:
+        value = 0
+        while True:
+            value = yield value
+            value = randint(from_val, to_val)
+            print(f'New value {value}')
+    except GeneratorExit:
+        print(f'increment_by_random closed')
+
+
 def main():
     pass
 
