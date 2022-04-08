@@ -33,6 +33,25 @@ class Scheduler(object):
         next(task)
         self.tasks.append(task)
 
+    def loop(self):
+        """
+        Loop infinitely over the generators in the 'tasks' list.
+        Close a generator when it raises StopIteration exception.
+        """
+        value = 0
+        while len(self.tasks):
+            try:
+                task = self.tasks[self.index % len(self.tasks)]
+                value = task.send(value)
+                sleep(0.2)
+                self.index += 1
+            except StopIteration:
+                task = self.tasks[self.index % len(self.tasks)]
+                self.index = self.index % len(self.tasks)
+                self.tasks.remove(task)
+                task.close()
+                print("Generator closed")
+
 
 def main():
     pass
