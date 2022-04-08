@@ -115,7 +115,12 @@ def values_sum(limit):
 
 
 def main():
-    pass
+    limit = 500000
+    scheduler = Scheduler()
+    scheduler.new(generate_random(10, 500))
+    scheduler.new(squared())
+    scheduler.new(values_sum(limit))
+    scheduler.loop()
 
 
 if __name__ == "__main__":
