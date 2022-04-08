@@ -92,6 +92,28 @@ def squared():
         print(f'squared closed')
 
 
+def values_sum(limit):
+    """
+    Purpose of this generator is computing sum of incoming values.
+    This sum is incremented until the limit is reached.
+
+    Args:
+        limit(int): limit to increment
+
+    Yields:
+        int: total sum so far
+    """
+    try:
+        total_sum = 0
+        while True:
+            total_sum += yield total_sum
+            print(f'Total sum {total_sum}')
+            if total_sum > limit:
+                break
+    except GeneratorExit:
+        print(f'values_sum closed')
+
+
 def main():
     pass
 
