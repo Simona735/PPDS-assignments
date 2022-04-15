@@ -41,13 +41,15 @@ async def squared(name, start, work_queue):
 async def main():
     work_queue = asyncio.Queue()
 
-    for number in [1, 2, 3, 4]:
+    for number in [1, 2, 3, 4, 5, 6]:
         await work_queue.put(number)
 
     start = time.perf_counter()
     await asyncio.gather(
         squared("A", start, work_queue),
         squared("B", start, work_queue),
+        squared("C", start, work_queue),
+        squared("D", start, work_queue),
     )
     elapsed = time.perf_counter() - start
     print(f'Total elapsed time: {elapsed:.2f} sec')

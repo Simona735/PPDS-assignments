@@ -40,7 +40,7 @@ def squared(name, start, work_queue):
 def main():
     work_queue = Queue()
 
-    for number in [1, 2, 3, 4]:
+    for number in [1, 2, 3, 4, 5, 6]:
         work_queue.put(number)
 
     start = time.perf_counter()
