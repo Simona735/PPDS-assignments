@@ -18,6 +18,26 @@ async def sleep():
     await asyncio.sleep(1)
 
 
+async def squared(name, start, work_queue):
+    """
+    Method computes squared value for each item from work_queue.
+    The computing is done asynchronously and is simulated by sleep
+    method. Method also contains multiple verification printouts.
+
+    Args:
+        name(string): task name
+        start(float): program start time
+        work_queue(asyncio.Queue): queue containing all numbers to process
+    """
+    while not work_queue.empty():
+        number = await work_queue.get()
+        print(f'Task {name}: Computing {number}*{number}')
+        await sleep()
+        elapsed = time.perf_counter() - start
+        print(f'Task {name}: Result is {number * number}')
+        print(f"Task {name}: Elapsed time: {elapsed:.1f}")
+
+
 async def main():
     pass
 
