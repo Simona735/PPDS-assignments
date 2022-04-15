@@ -38,7 +38,16 @@ def squared(name, start, work_queue):
 
 
 def main():
-    pass
+    work_queue = Queue()
+
+    for number in [1, 2, 3, 4]:
+        work_queue.put(number)
+
+    start = time.perf_counter()
+    squared("A", start, work_queue)
+    elapsed = time.perf_counter() - start
+
+    print(f'Total elapsed time: {elapsed:.2f} sec')
 
 
 if __name__ == "__main__":
