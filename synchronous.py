@@ -10,6 +10,13 @@ import time
 from queue import Queue
 
 
+def sleep():
+    """
+    Sleep method that puts the program to sleep for one second.
+    """
+    time.sleep(1)
+
+
 def main():
     pass
 
