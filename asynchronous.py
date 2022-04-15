@@ -10,6 +10,14 @@ import time
 import asyncio
 
 
+async def sleep():
+    """
+    Asynchronous sleep method that puts the program to sleep for
+    one second.
+    """
+    await asyncio.sleep(1)
+
+
 async def main():
     pass
 
