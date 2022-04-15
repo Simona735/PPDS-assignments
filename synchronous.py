@@ -17,6 +17,26 @@ def sleep():
     time.sleep(1)
 
 
+def squared(name, start, work_queue):
+    """
+    Method computes squared value for each item from work_queue.
+    The computation is simulated by sleep.
+    Method also contains multiple verification printouts.
+
+    Args:
+        name(string): task name
+        start(float): program start time
+        work_queue(Queue): queue containing all numbers to process
+    """
+    while not work_queue.empty():
+        number = work_queue.get()
+        print(f'Task {name}: Computing {number}*{number}')
+        sleep()
+        elapsed = time.perf_counter() - start
+        print(f'Task {name}: Result is {number * number}')
+        print(f"Task {name}: Elapsed time: {elapsed:.1f}\n")
+
+
 def main():
     pass
 
