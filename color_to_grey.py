@@ -31,6 +31,20 @@ def color_to_grey(color, grey):
 
 def main():
     print(cuda.gpus)
+    color = cv2.imread("dog.jpg")
+    grey = np.zeros((color.shape[0], color.shape[1]), dtype=np.uint8)
+
+    threads_per_block = (16, 16)
+    blocks_per_grid_x = math.ceil(grey.shape[0] / threads_per_block[0])
+    blocks_per_grid_y = math.ceil(grey.shape[1] / threads_per_block[1])
+    blocks_per_grid = (blocks_per_grid_x, blocks_per_grid_y)
+
+    color_to_grey[blocks_per_grid, threads_per_block](color, grey)
+
+    cv2.imshow("color", color)
+    cv2.imshow("grey", grey)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 
 if __name__ == "__main__":
