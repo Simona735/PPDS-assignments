@@ -29,6 +29,19 @@ def color_to_grey(color):
         color[x][y] = colors_sum // 3
 
 
+def load_images_preset():
+    """
+    Load predefined set of images as numpy array each.
+
+    Returns:
+        list: list of images
+    """
+    images = [cv2.imread("dog.jpg"),
+              cv2.imread("cat.jpg"),
+              cv2.imread("kittens.jpg")]
+    return images
+
+
 def main():
     pass
 
