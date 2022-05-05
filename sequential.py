@@ -42,7 +42,28 @@ def load_images_preset():
 
 
 def main():
-    pass
+    data = load_images_preset()
+    data_gpu = []
+    gpu_out = []
+
+    time_start = perf_counter()
+
+    for k in range(len(data)):
+        data_gpu.append(cuda.to_device(data[k]))
+
+    for k in range(len(data)):
+        threads_per_block = (32, 32)
+        blocks_per_grid_x = math.ceil(data[k].shape[0] / threads_per_block[0])
+        blocks_per_grid_y = math.ceil(data[k].shape[1] / threads_per_block[1])
+        blocks_per_grid = (blocks_per_grid_x, blocks_per_grid_y)
+        color_to_grey[blocks_per_grid, threads_per_block](data_gpu[k])
+
+    for k in range(len(data)):
+        gpu_out.append(data_gpu[k].copy_to_host())
+
+    time_end = perf_counter()
+
+    print(f'Total time: {time_end - time_start:.2f} seconds')
 
 
 if __name__ == "__main__":
