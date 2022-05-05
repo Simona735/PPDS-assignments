@@ -77,10 +77,12 @@ We can see major improvement here.
 
 **Streams and events:**
 Total time: 0.32 seconds
+
 Mean kernel duration (milliseconds): 100.315591
+
 Mean kernel standard deviation (milliseconds): 128.678776
 
 In total time there is no improvement as there was no made from second version. 
 
-We have also used the CUDA Occupancy Calculator excel sheet. The result was that the occupancy is 100%. This was decided on the basis of the number of threads per block. 
+To determine the correctness of the use of the parameters we have used the CUDA Occupancy Calculator excel sheet. The result was that the occupancy is 100%. This was decided on the basis of the number of threads per block. 
 
