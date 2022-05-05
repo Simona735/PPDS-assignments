@@ -14,6 +14,19 @@ import math
 from time import perf_counter
 
 
+@cuda.jit
+def color_to_grey(color):
+    """
+    Convert color image to grey using cuda.
+    Args:
+        color(numpy array): color image with 3 dimensions (RGB colors)
+    """
+    x, y = cuda.grid(2)
+    x_max, y_max, _ = color.shape
+    if x < x_max and y < y_max:
+        colors_sum = color[x][y][0] + color[x][y][1] + color[x][y][2]
+        color[x][y] = colors_sum // 3
+
 
 def main():
     pass
