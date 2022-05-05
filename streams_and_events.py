@@ -43,7 +43,47 @@ def load_images_preset():
 
 
 def main():
-    pass
+    data = load_images_preset()
+    data_gpu = []
+    gpu_out = []
+    streams = []
+    start_events = []
+    end_events = []
+
+    for k in range(len(data)):
+        streams.append(cuda.stream())
+        start_events.append(cuda.event())
+        end_events.append(cuda.event())
+
+    time_start = perf_counter()
+
+    for k in range(len(data)):
+        data_gpu.append(cuda.to_device(data[k], stream=streams[k]))
+
+    for k in range(len(data)):
+        threads_per_block = (32, 32)
+        blocks_per_grid_x = math.ceil(data[k].shape[0] / threads_per_block[0])
+        blocks_per_grid_y = math.ceil(data[k].shape[1] / threads_per_block[1])
+        blocks_per_grid = (blocks_per_grid_x, blocks_per_grid_y)
+        start_events[k].record(streams[k])
+        color_to_grey[blocks_per_grid, threads_per_block, streams[k]](data_gpu[k])
+
+    for k in range(len(data)):
+        end_events[k].record(streams[k])
+
+    for k in range(len(data)):
+        gpu_out.append(data_gpu[k].copy_to_host(stream=streams[k]))
+
+    time_end = perf_counter()
+
+    kernel_times = []
+
+    for k in range(len(data)):
+        kernel_times.append(cuda.event_elapsed_time(start_events[k], end_events[k]))
+
+    print(f'Total time: {time_end - time_start:.2f} seconds')
+    print('Mean kernel duration (milliseconds): %f' % np.mean(kernel_times))
+    print('Mean kernel standard deviation (milliseconds): %f' % np.std(kernel_times))
 
 
 if __name__ == "__main__":
